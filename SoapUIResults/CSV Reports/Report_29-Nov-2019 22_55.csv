@@ -1,0 +1,7 @@
+"Test Suite","Test Case","Test Step","Step Type","Step Status","Result message","Execution Date"
+"TestSuite 1","TestCase 1","Add","request","OK","","29-Nov-2019 22_55",
+"TestSuite 1","TestCase 1","Groovy Script","groovy","OK","","29-Nov-2019 22_55",
+"TestSuite 1","TestCase 1","Property Transfer","transfer","OK","Message:Performed transfer [PropTran]
+","29-Nov-2019 22_55",
+"TestSuite 1","TestCase 1","MyProperties","properties","OK","","29-Nov-2019 22_55",
+"TestSuite 1","TestCase 1","Multiply","request","OK","","29-Nov-2019 22_55",

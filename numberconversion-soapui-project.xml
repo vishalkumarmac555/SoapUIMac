@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="eeef3b10-a793-44c5-8375-e0b254c08e55" activeEnvironment="Default" name="numberconversion" soapui-version="5.5.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="89b42927-52aa-4315-a738-39046153c5da" wsaVersion="NONE" name="NumberConversionSoapBinding" type="wsdl" bindingName="{http://www.dataaccess.com/webservicesserver/}NumberConversionSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://www.dataaccess.com/webservicesserver/numberconversion.wso?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache/><con:endpoints><con:endpoint>http://www.dataaccess.com/webservicesserver/numberconversion.wso</con:endpoint></con:endpoints><con:operation id="74a63739-5f0b-459d-8cd8-b772959b72c3" isOneWay="false" action="" name="NumberToDollars" bindingOperationName="NumberToDollars" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="e5c48bf6-7f4b-442a-9b34-5d78f4038eea" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.dataaccess.com/webservicesserver/numberconversion.wso</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.dataaccess.com/webservicesserver/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:NumberToDollars>
+         <web:dNum>?</web:dNum>
+      </web:NumberToDollars>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.dataaccess.com/webservicesserver/NumberConversionSoapType/NumberToDollarsRequest"/></con:call></con:operation><con:operation id="510d2973-9590-495a-8e0a-f1e2e4f44abf" isOneWay="false" action="" name="NumberToWords" bindingOperationName="NumberToWords" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="84c4ce21-d94b-4b06-983a-81ac10fdbf53" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.dataaccess.com/webservicesserver/numberconversion.wso</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.dataaccess.com/webservicesserver/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:NumberToWords>
+         <web:ubiNum>1</web:ubiNum>
+      </web:NumberToWords>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.dataaccess.com/webservicesserver/NumberConversionSoapType/NumberToWordsRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="f38c02aa-71c7-4289-bcb4-85000937d89d" name="BasicTestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="dc7287d8-eea9-4f8d-a401-c5048d215620" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TC3 - Data Driven Testing" searchProperties="true"><con:settings/><con:testStep type="groovy" name="Groovy Script" id="6bfca87b-4d2b-4226-9ed1-49114033e334"><con:settings/><con:config><script>import jxl.* // import Java Excel API library
+def TestCase = context.testCase
+def FilePath = "//Users//vishal//Documents//SoapUiTests//NumbersWords.xls"
+def count
+Workbook WorkBook1 = Workbook.getWorkbook(new File(FilePath))
+Sheet Sheet1 = WorkBook1.getSheet(0)
+PropertiesTestStep = TestCase.getTestStepByName("Properties")
+count = PropertiesTestStep.getPropertyValue("Counter").toInteger()
+//If Total records is unknown (at start), get the rowcount from Excel
+if (PropertiesTestStep.getPropertyValue("Total").toString() == "")
+    PropertiesTestStep.setPropertyValue("Total", Sheet1.getRows().toString())
+count++
+//Read the Excel test data
+Cell Field1 = Sheet1.getCell(0, count)
+Cell Field2 = Sheet1.getCell(1, count)
+log.info ("Count is " + count.toString() + " Number : " + Field1.getContents() + " Word : " + Field2.getContents())
+WorkBook1.close()
+//Copy the Excel test data to properties in Properties test step
+PropertiesTestStep.setPropertyValue("Number", Field1.getContents())
+PropertiesTestStep.setPropertyValue("Word", Field2.getContents())
+PropertiesTestStep.setPropertyValue("Counter", count.toString())
+if (count == PropertiesTestStep.getPropertyValue("Total").toInteger() - 1)
+    PropertiesTestStep.setPropertyValue("End", "True")</script></con:config></con:testStep><con:testStep type="properties" name="Properties" id="a3907375-2f50-4c76-83da-722c7ff393c4"><con:settings/><con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:properties><con:property><con:name>Number</con:name><con:value/></con:property><con:property><con:name>Word</con:name><con:value/></con:property><con:property><con:name>Counter</con:name><con:value>0</con:value></con:property><con:property><con:name>Total</con:name><con:value/></con:property><con:property><con:name>End</con:name><con:value>False</con:value></con:property></con:properties></con:config></con:testStep><con:testStep type="request" id="cfde0b0f-1ddf-450b-a1a7-360cc0874699" name="NumberToWords"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>NumberConversionSoapBinding</con:interface><con:operation>NumberToWords</con:operation><con:request name="NumberToWords" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="a3896680-87ed-4ddc-bd66-0f6b11f48af1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.dataaccess.com/webservicesserver/numberconversion.wso</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.dataaccess.com/webservicesserver/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:NumberToWords>
+         <web:ubiNum>${Properties#Number}</web:ubiNum>
+      </web:NumberToWords>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="94b4c737-212c-422c-a8f0-11086682e296" name="SOAP Response"/><con:assertion type="Simple Contains" id="33d82d03-203f-4f18-8d3b-73825bbe67fc" name="Contains"><con:configuration><token>${Properties#Word}</token><ignoreCase>true</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.dataaccess.com/webservicesserver/NumberConversionSoapType/NumberToWordsRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script - DataLoop" id="cc86fb1d-a377-4705-99ff-26c94f288951"><con:settings/><con:config><script>def TestCase = context.testCase
+PropertiesTestStep = TestCase.getTestStepByName("Properties")
+Stop = PropertiesTestStep.getPropertyValue("End").toString()
+if (Stop=="True")
+    log.info("Exit Groovy Script - DataLoop")
+else
+    testRunner.gotoStepByName("Groovy Script")</script></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script - CleanUp" id="3b9862c6-660b-4f1d-b288-2b1877c81bf5" disabled="true"><con:settings/><con:config><script>def TestCase = context.testCase
+PropertiesTestStep = TestCase.getTestStepByName("Properties")
+PropertiesTestStep.setPropertyValue("Number","")
+PropertiesTestStep.setPropertyValue("Word", "")
+PropertiesTestStep.setPropertyValue("Counter", "0")
+PropertiesTestStep.setPropertyValue("Total", "")
+PropertiesTestStep.setPropertyValue("End", "False")</script></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>

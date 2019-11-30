@@ -1,0 +1,284 @@
+Soap practice 
+
+SOAP Ui Urls
+
+http://thomas-bayer.com/sqlrest/CUSTOMER/10
+
+http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?wsdl
+
+Projects > Test Suite > Test Case > Test steps
+
+https://restcountries.eu/rest/v2/all
+https://restcountries.eu/rest/v2/name/united
+https://restcountries.eu/rest/v2/name/aruba?fullText=true
+
+Check video 5
+
+Video 6
+To access Properties
+log.info(“Yellow world)
+ def name = context.expand(‘${#Env#MVN_HOME}’)
+
+https://www.soapui.org/scripting-properties/tips-tricks.html 
+
+Video 8
+To use jar files ->upload to SOAPUi > bin > exe (put jar files here)
+======================
+
+class Hello{
+
+ def log;
+ def context;
+ def testRunner;
+
+ def Hello(log, context, testRunner){
+  this.log = log
+  this.context = context
+  this.testRunner = testRunner
+ }
+
+ def sayHello(String name){
+  log.info ("   Hello "+name);
+ }
+ 
+}
+
+context.setProperty("Hello", new Hello(log,context,testRunner))
+
+
+========================
+
+def testStep = testRunner.testCase.getTestStepByName("Hello")
+
+testStep.run(testRunner, context)
+
+context.Hello.sayHello("Raghav")
+
+============================
+
+project = testRunner.testCase.testSuite.project ;
+ tcase = project.testSuites["TestSuite3"].testCases["TestCase1"] ; 
+ hello = tcase.getTestStepByName("Hello");
+
+hello.run(testRunner, context)
+
+context.Hello.sayHello("Raghav")
+
+
+project = testRunner.testCase.testSuite.project ;
+ tcase = project.testSuites["TestSuite"].testCases["TestCaseName"] ; 
+ hello = tcase.getTestStepByName("Hello");
+
+
+log.info testRunner.metaClass.methods*.name.unique().sort()
+
+context.setProperty("Hello", new Hello(log,context,testRunner))
+
+def hello = testRunner.testCase.getTestStepByName("Hello");
+
+hello.run(testRunner, context)
+
+def ref = context.Hello;
+ref.printHello("Raghav");
+==============================================
+
+
+Video 9
+//Groovy - run request from same TestCase
+def status = testRunner.runTestStepByName("TestStepName")
+def result = status.getStatus().toString();
+log.info ("   ---- "+result)
+
+//Groovy - run request from another TestCase or TestSuite
+project = testRunner.testCase.testSuite.project ;
+tcase = project.testSuites["TestSuiteName"].testCases["TestCaseName"] ; 
+tstep = tcase.getTestStepByName("TestStepName");
+def status = tstep.run(testRunner, context)
+def result = status.getStatus().toString();
+log.info ("   ----   "+result)
+
+Video 10
+groovy code to run test case
+=====================
+def tCase = testRunner.testCase.testSuite.testCases["TestCaseName"]
+runner = tCase.run(new com.eviware.soapui.support.types.StringToObjectMap(), false);
+
+groovy code to loop test cases in a test suite
+==================================
+def testCases = context.testCase.testSuite.getTestCaseList() 
+testCases.each{
+log.info(it.name)
+}
+if(it.name == “TestCaseName”){
+//blah
+}
+
+//to print current test case
+Log.info(“Current test case name is “ + testRunner.testCase.name)
+Right click on TestCase2 > click on Launch TestRunner  > Launch
+MAKE a note of the path ex: — cd ~/Applications/SoapUI-5.5.0.app/Contents/java/app/bin/
+
+Copy the command too
+sh -c ./testrunner.sh -sTestSuite3 -cTestCase2 /Users/vishal/Documents/SoapUiTests/10132019_11am.xml
+
+Video 13
+// logs are present at Project, Test Suite, Test Case and Test steps
+And also goto SOAP UI Installation folder and you can see the logs by viewing/tailing soapui.logs or error.logs file
+
+Video 14
+//set up and tear down script
+//you can double click on either Project, Test Suite, Test Case or Test Step
+And add log.info(“This is before/after …”) at setUp and TearDown scripts
+
+Or use the following groovy scripts
+
+groovy code to set and get setup and teardown scripts 
+--------------------------------------------------------------------------
+testRunner.testCase.testSuite.project.getTestSuiteByName('TestSuite1').getTestCaseByName('TestCase1').setSetupScript('log.info "setup"')
+testRunner.testCase.testSuite.project.getTestSuiteByName('TestSuite1').getTestCaseByName('TestCase1').setTearDownScript('log.info "teardown"')
+
+log.info ("  --  "+testRunner.testCase.getSetupScript());
+log.info ("  --  "+testRunner.testCase.getTearDownScript());
+
+groovy code can be given at project load script to load setup and teardown scritps from file
+This can be given a “Load Script” —> double click on project > Overview > bottom of the page
+--------------------------------------------------------------------------------------------------------------------------
+def su = new File("setup.txt").text
+def td  = new File("teardown.txt").text
+
+project.getTestSuiteList().each { testSuite -
+ testSuite.getTestCaseList().each { testCase -
+  testCase.setSetupScript(su)
+  testCase.setTearDownScript(td)
+ }
+}
+
+//note create and paste setup.txt and teardown.txt files under /bin folder of soap ui
+//if in case you want to create setup.txt or teardown.txt on desktop then give file location name
+Ex: def su = new File(“C://Users/Raghav/Desktop/setup.txt").text
+
+RESTART Soap ui for the setup and teardown changes to be effected
+***************************************************************************
+
+Rest API —> https://restcountries.eu/
+SOAP API —> http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?wsdl
+
+***************************************************************************
+Video 15
+Assertions. —> Validation on response,     Expected vs Actual
+
+Video 16
+SLI - service level agreement
+Install JSONPath Finder chrome add on for finding a Json element (ex: name or region)
+
+Video 17 — Assertions via script 
+For both XML and JSON 
+//check response time
+assert messageExchange.timeTaken < 4000
+
+//check for Endpoint
+log.info messageExchange.getEndpoint() 
+def endPoint = "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso"
+assert messageExchange.getEndpoint() == endPoint
+
+//check for TimeTaken
+log.info messageExchange.getTimeTaken()  
+
+//check for header
+log.info (messageExchange.responseHeaders["Content-Length"])
+assert messageExchange.responseHeaders["Content-Length"] != null
+
+//check attachments
+assert messageExchange.responseAttachments.length == 0
+log.info (messageExchange.responseAttachments.length)
+
+//validate response nodes
+def groovyUtils = new com.eviware.soapui.support.GroovyUtils( context )
+def requestHolder = groovyUtils.getXmlHolder( messageExchange.requestContent )
+def responseHolder = groovyUtils.getXmlHolder( messageExchange.responseContent )
+def refName = responseHolder.getNodeValue("//m:CountryCurrencyResult/m:sName")
+assert refName == "Rupees"
+
+//to get response
+def resp = messageExchange.responseContentAsXml.toString()
+log.info("Entire response is: " + resp)
+
+
+FOR ONLY JSON
+//get json response
+import groovy.json.JsonSlurper
+def responseMessage = messageExchange.response.responseContent
+def json = new JsonSlurper().parseText(responseMessage)
+
+log.info(json)
+
+//assert node values
+log.info (json.name)
+assert json.capital.toString() != null
+assert json.name.toString() == "[Taiwan]"
+
+testStepName = messageExchange.modelItem.testStep.name//to get the Test Step Name
+log.info testStepName
+xmlHold = messageExchange.responseContentAsXml.toString()  //to store the response as Xml string
+log.info(xmlHold)
+
+Video 18
+Jenkins. —> goto folder where is jenkins.war file —> java -jar Jenkins.war --httpPort=9292
+http://192.168.1.10:9292/
+
+After installing Jenkins > click NEW > give name > click FREE STYLE PROJECT > click OK
+Goto Build and then insert the following commands in Execute Shell (for Mac) or Execute Bash for windows
+
+Goto TestSuite > open Lauch TestRunner
+cd /Applications/SoapUI-5.5.0.app/Contents/java/app/bin/
+./testrunner.sh -sTestSuite1 -cAssertions /Users/vishal/Documents/SoapUiTests/REST-Project-1-soapui-project.xml
+
+API Monitoring —> checking of your API’s at regular interval for Availability, Correctness and Performance
+
+For JSON with REST
+Sample rest apis — https://reqres.in/
+
+1st way : Using Property Transfer step
+
+Step 1 : Add the api requests in a test case
+
+Step 2 : Add a property transfer step
+
+Step 3 : Create a new property transfer
+   Provide source and target details
+
+Step 4 : Provide json path in source and target
+References
+http://jsonpathfinder.com/
+Chrome extension : Json path finder
+
+Step 5 : Run and check the results
+
+For XML with SOAP
+http://www.dneonline.com/calculator.asmx
+
+https://xmlgrid.net/
+
+REPORTING
+
+https://dzone.com/articles/how-to-achieve-csv-reporting-in-soapui-open-source-1
+
+
+SOAP TUTORIALS
+https://www.youtube.com/results?search_query=WebService+Testing+-+SoapUI%3A+Tutorial
+
+To see
+
+https://www.youtube.com/watch?v=fs-gHPMFJ20
+https://www.youtube.com/watch?v=y1yUghLu-8E
+https://www.youtube.com/watch?v=m_nr8pxEwjU
+https://www.youtube.com/watch?v=GNZJ7CSTd7M&list=PLc3SzDYhhiGWI_aWCRiSOxZ1TN6UqMbXi&index=7&t=0s
+
+JExcel —> https://sourceforge.net/projects/jexcelapi/files/jexcelapi/2.6.12/jexcelapi_2_6_12.zip/download
+Data driven —> https://inderpsingh.blogspot.com/2019/07/SoapUIDataDrivenTesting.html
+
+NumbersToWords
+http://www.dataaccess.com/webservicesserver/numberconversion.wso
+
+
+
