@@ -358,4 +358,24 @@ try {
 catch(exc)
 {
    log.error("Exception happened: " + exc.toString());
-}</script></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
+}</script></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:testSuite id="2fef2153-c39c-4a45-a299-d30a4044f9f1" name="TestSuite2"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="99da989a-ed1c-4c24-8506-796f1a6229f1" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase 1" searchProperties="true"><con:settings/><con:testStep type="request" id="ba9d45ad-1c88-4368-835f-233bdfd5621a" name="Add"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>CalculatorSoap</con:interface><con:operation>Add</con:operation><con:request name="Add" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="904d64b5-dd25-4a92-834e-c9ed823d0a1f"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.dneonline.com/calculator.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:Add>
+         <tem:intA>4</tem:intA>
+         <tem:intB>5</tem:intB>
+      </tem:Add>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="1db69188-e98e-4906-99a3-6921d6337132" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/Add"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="NaScript" id="f94eddfb-5553-4d69-acf0-1eb169aa1540"><con:settings/><con:config><script>import groovy.xml.*
+
+def resp = testRunner.testCase.getTestStepByName('Add').getPropertyValue('Request')
+log.info resp
+def xmlSlurper = new XmlSlurper()
+def object = xmlSlurper.parseText(resp)
+
+def value1 = object.Body.Add.intA
+def value2 = object.Body.Add.intB
+log.info value1
+log.info value2
+
+</script></con:config></con:testStep><con:properties><con:property><con:name>a</con:name><con:value/></con:property><con:property><con:name>b</con:name></con:property></con:properties></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
