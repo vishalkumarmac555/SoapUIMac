@@ -362,11 +362,50 @@ catch(exc)
    <soapenv:Header/>
    <soapenv:Body>
       <tem:Add>
-         <tem:intA>4</tem:intA>
-         <tem:intB>5</tem:intB>
+         <tem:intA>100</tem:intA>
+         <tem:intB>200</tem:intB>
       </tem:Add>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="1db69188-e98e-4906-99a3-6921d6337132" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/Add"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="NaScript" id="f94eddfb-5553-4d69-acf0-1eb169aa1540"><con:settings/><con:config><script>import groovy.xml.*
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="1db69188-e98e-4906-99a3-6921d6337132" name="SOAP Response"/><con:assertion type="Simple Contains" id="421a3a25-e69a-44ce-9e49-670f6d267493" name="Contains"><con:configuration><token>300</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/Add"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script" id="8194ff2d-2d1a-4b5b-bf2b-b7ad17ffa9b9"><con:settings/><con:config><script>//https://www.dataaccess.com/webservicesserver/numberconversion.wso
+//using XmlHolder parse xml, replace xml request with new values
+//run the xml request using groovy
+
+import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+def request = testRunner.testCase.getTestStepByName('Add').getPropertyValue('Request')
+def a = testRunner.testCase.getPropertyValue('a')
+def b = testRunner.testCase.getPropertyValue('b')
+
+def xmlHolder = new XmlHolder(request)
+
+xmlHolder.setNodeValue('//tem:Add/tem:intA', a)
+xmlHolder.setNodeValue('//tem:Add/tem:intB', b)
+
+def newXMLReq = xmlHolder.getXml()
+
+
+//to run the new request after updating the values
+testRunner.testCase.getTestStepByName('Add').setPropertyValue('Request', newXMLReq)
+
+def addReqTest = testRunner.testCase.getTestStepByName('Add')
+def contextAddReqTest = new WsdlTestRunContext(addReqTest)
+
+
+addReqTest.run(testRunner, contextAddReqTest)//.run(testRunner, context)
+
+//to verify the response
+def resp = testRunner.testCase.getTestStepByName('Add').getPropertyValue('Response')
+def respXmlHolder = new XmlHolder(resp)
+
+def totalValue = respXmlHolder.getNodeValue('//*:AddResult')
+
+def A = a.toInteger()
+def B = b.toInteger()
+def addedValue = totalValue.toInteger()
+
+assert addedValue == A+B
+</script></con:config></con:testStep><con:testStep type="groovy" name="NaScript" id="f94eddfb-5553-4d69-acf0-1eb169aa1540"><con:settings/><con:config><script>import groovy.xml.*
 
 def resp = testRunner.testCase.getTestStepByName('Add').getPropertyValue('Request')
 log.info resp
@@ -378,4 +417,5 @@ def value2 = object.Body.Add.intB
 log.info value1
 log.info value2
 
-</script></con:config></con:testStep><con:properties><con:property><con:name>a</con:name><con:value/></con:property><con:property><con:name>b</con:name></con:property></con:properties></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
+
+</script></con:config></con:testStep><con:testStep type="groovy" name="MyScript" id="4fded1cc-4312-40e5-9dce-3721702210ae"><con:settings/><con:config><script/></con:config></con:testStep><con:properties><con:property><con:name>a</con:name><con:value>100</con:value></con:property><con:property><con:name>b</con:name><con:value>200</con:value></con:property></con:properties></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
