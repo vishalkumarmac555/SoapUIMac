@@ -1,4 +1,5 @@
 Soap practice 
+Shortcuts --> Ctrl+D removes line
 
 SOAP Ui Urls
 
@@ -54,10 +55,51 @@ def propName = context.expand('${#Env#MVN_HOME}')
 
 Video 6
 To access Properties
-log.info(“Yellow world)
- def name = context.expand(‘${#Env#MVN_HOME}’)
+def propName = context.expand('${#Project#CountryName}')
+log.info propName
 
-https://www.soapui.org/scripting-properties/tips-tricks.html 
+//Get properties
+def projProperty = testRunner.testCase.testSuite.project.getPropertyValue('Name')
+log.info projProperty
+
+def suiteProperty = testRunner.testCase.testSuite.getPropertyValue('Name')
+log.info suiteProperty
+
+def caseProp = testRunner.testCase.getPropertyValue('Name')
+log.info caseProp
+
+def testStepProp = testRunner.testCase.getTestStepByName('MyProperties').getPropertyValue('Name')
+log.info testStepProp
+
+def globalProp = com.eviware.soapui.SoapUI.globalProperties.getPropertyValue('Name')
+log.info globalProp
+
+//for set Properties
+testRunner.testCase.testSuite.project.setPropertyValue('Name', "This is a NEW Project property")
+def newProjProperty = testRunner.testCase.testSuite.project.getPropertyValue('Name')
+log.info newProjProperty
+
+//for adding and removing properties
+testRunner.testCase.testSuite.project.addProperty('DOB')//adds ONLY propertyKey but not value
+testRunner.testCase.testSuite.project.setPropertyValue('DOB1', "this is dob prop")//adds both key and value
+testRunner.testCase.testSuite.project.removeProperty('DOB')
+
+For Comments
+//single line comments
+/*** multiple line comments
+***/
+
+
+To loop all properties
+//loop properties in test case
+
+testRunner.testCase.properties.each {
+	key, value ->
+	  log.info (key + " - " + testRunner.testCase.getPropertyValue(key))
+	}
+
+
+******IMP --> https://www.soapui.org/scripting-properties/tips-tricks.html 
 
 Video 8
 To use jar files ->upload to SOAPUi > bin > exe (put jar files here)
