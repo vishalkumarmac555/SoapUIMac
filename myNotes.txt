@@ -512,7 +512,65 @@ log.info json
 assert json.toString() == '{"root":[{"node":["Tim"]},{"node":["Tom"]},{"node":[{"anotherNode":["another"]}]}]}'
 
 
------------------------
+-----------------------GET Multiple Rest APIs--------------------------------------
+
+// GET
+def list = ["https://httpbin.org/get", "https://restcountries.eu/rest/v2/name/united", "https://restcountries.eu/rest/v2/name/india"]
+
+for(item in list){
+	log.info "    item  --- " + item
+def get = new URL(item).openConnection();
+def getRC = get.getResponseCode();
+log.info(getRC);
+if(getRC.equals(200)) {
+    log.info("     status code -- " + get.getInputStream().getText());
+}else{
+	log.info "there is an error"
+	}
+
+}
+
+// POST
+def post = new URL("https://httpbin.org/post").openConnection();
+def message = '{"message":"this is a message"}'
+post.setRequestMethod("POST")
+post.setDoOutput(true)
+post.setRequestProperty("Content-Type", "application/json")
+post.getOutputStream().write(message.getBytes("UTF-8"));
+def postRC = post.getResponseCode();
+log.info(postRC);
+if(postRC.equals(200)) {
+    log.info(post.getInputStream().getText());
+}
+
+
+
+
+/***
+HttpClient client=new DefaultHttpClient();        
+            HttpEntity requestEntity=null;
+            try{
+                requestEntity=new StringEntity(json,HTTP.UTF_8)
+                HttpPost post = null;
+                post = new HttpPost("https://myjira.com:8443/rest/tempo-teams/1/team");
+                post.setHeader("Authorization", "Basic base64_encoded_login"); 
+                post.addHeader("Content-Type", "application/json;charset=utf-8");
+                post.setEntity(requestEntity);
+                ResponseHandler&lt;String&gt; handler = new BasicResponseHandler();
+                HttpResponse response = client.execute(post);
+                String body = handler.handleResponse(response);
+                int statusCode = response.getStatusLine().getStatusCode();
+                if(statusCode!=HttpStatus.SC_OK){
+                    System.err.log.info("Status code = " + statusCode);
+                    System.err.log.info("Method failed: "+method.getStatusLine());
+                }
+                System.out.log.info("BODY  = \n"+body);
+                System.out.log.info("CODE = " + statusCode );
+             }catch (Exception e){
+               log.info e
+             }
+
+             **/
 
 
 

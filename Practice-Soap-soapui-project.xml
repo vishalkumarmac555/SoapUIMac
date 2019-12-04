@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="4f091f29-fc1a-4b3e-a9cc-59faf46c690d" activeEnvironment="Default" name="Practice_Soap" soapui-version="5.5.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="6565af6e-7142-4d90-9f45-955636aa54ba" wsaVersion="NONE" name="CountryInfoServiceSoapBinding" type="wsdl" bindingName="{http://www.oorsprong.org/websamples.countryinfo}CountryInfoServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?wsdl"><con:part><con:url>http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?wsdl</con:url><con:content><![CDATA[<definitions name="CountryInfoService" targetNamespace="http://www.oorsprong.org/websamples.countryinfo" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://www.oorsprong.org/websamples.countryinfo">
+<con:soapui-project id="4f091f29-fc1a-4b3e-a9cc-59faf46c690d" activeEnvironment="Default" name="Practice_Soap" resourceRoot="" soapui-version="5.5.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="6565af6e-7142-4d90-9f45-955636aa54ba" wsaVersion="NONE" name="CountryInfoServiceSoapBinding" type="wsdl" bindingName="{http://www.oorsprong.org/websamples.countryinfo}CountryInfoServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?wsdl"><con:part><con:url>http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?wsdl</con:url><con:content><![CDATA[<definitions name="CountryInfoService" targetNamespace="http://www.oorsprong.org/websamples.countryinfo" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://www.oorsprong.org/websamples.countryinfo">
   <types>
     <xs:schema elementFormDefault="qualified" targetNamespace="http://www.oorsprong.org/websamples.countryinfo">
       <xs:complexType name="tContinent">
@@ -1110,5 +1110,35 @@
          <web:sCountryISOCode>${#System#user.home}</web:sCountryISOCode>
       </web:CapitalCity>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="f428eedb-f09d-421b-8d3f-17977c21ec97" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.oorsprong.org/websamples.countryinfo/CountryInfoServiceSoapType/CapitalCityRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script" id="e243bcae-7ad7-497f-96e8-477a4ac0b8dd"><con:settings/><con:config><script>def propName = context.expand('${#Project#CountryName}')
-log.info propName</script></con:config></con:testStep><con:testStep type="properties" name="MyProperties" id="4ff3becd-2021-4dc9-a93e-b0c25cc8d7bb"><con:settings/><con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:properties><con:property><con:name>Name</con:name><con:value>I am test step property</con:value></con:property><con:property><con:name>CountryName</con:name><con:value>FR</con:value></con:property></con:properties></con:config></con:testStep><con:properties><con:property><con:name>Name</con:name><con:value>I am a test case property value</con:value></con:property><con:property><con:name>CountryName</con:name><con:value>TW</con:value></con:property></con:properties></con:testCase><con:properties><con:property><con:name>Name</con:name><con:value>I am a Test Suite Prop value</con:value></con:property><con:property><con:name>CountryName</con:name><con:value>US</con:value></con:property></con:properties></con:testSuite><con:properties><con:property><con:name>Name</con:name><con:value>I am a project property value</con:value></con:property><con:property><con:name>CountryName</con:name><con:value>IN</con:value></con:property></con:properties><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="f428eedb-f09d-421b-8d3f-17977c21ec97" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.oorsprong.org/websamples.countryinfo/CountryInfoServiceSoapType/CapitalCityRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="ToLoopProperties" id="7d42b29a-fd81-4d52-803e-56b0a44a0b4f"><con:settings/><con:config><script>testRunner.testCase.properties.each {
+	key, value ->
+	log.info("   "+key + "  - " + testRunner.testCase.getPropertyValue(key))
+	}</script></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script" id="e243bcae-7ad7-497f-96e8-477a4ac0b8dd"><con:settings/><con:config><script>def propName = context.expand('${#Project#CountryName}')
+log.info propName
+
+//Get properties
+def projProperty = testRunner.testCase.testSuite.project.getPropertyValue('Name')
+log.info projProperty
+
+def suiteProperty = testRunner.testCase.testSuite.getPropertyValue('Name')
+log.info suiteProperty
+
+def caseProp = testRunner.testCase.getPropertyValue('Name')
+log.info caseProp
+
+def testStepProp = testRunner.testCase.getTestStepByName('MyProperties').getPropertyValue('Name')
+log.info testStepProp
+
+def globalProp = com.eviware.soapui.SoapUI.globalProperties.getPropertyValue('Name')
+log.info globalProp
+
+//for set Properties
+testRunner.testCase.testSuite.project.setPropertyValue('Name', "This is a NEW Project property")
+def newProjProperty = testRunner.testCase.testSuite.project.getPropertyValue('Name')
+log.info newProjProperty
+
+//for adding and removing properties
+testRunner.testCase.testSuite.project.addProperty('DOB')//adds ONLY propertyKey but not value
+testRunner.testCase.testSuite.project.setPropertyValue('DOB1', "this is dob prop")//adds both key and value
+testRunner.testCase.testSuite.project.removeProperty('DOB')
+</script></con:config></con:testStep><con:testStep type="properties" name="MyProperties" id="4ff3becd-2021-4dc9-a93e-b0c25cc8d7bb"><con:settings/><con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:properties><con:property><con:name>Name</con:name><con:value>I am test step property</con:value></con:property><con:property><con:name>CountryName</con:name><con:value>FR</con:value></con:property></con:properties></con:config></con:testStep><con:properties><con:property><con:name>Name</con:name><con:value>I am a test case property value</con:value></con:property><con:property><con:name>CountryName</con:name><con:value>TW</con:value></con:property></con:properties></con:testCase><con:properties><con:property><con:name>Name</con:name><con:value>I am a Test Suite Prop value</con:value></con:property><con:property><con:name>CountryName</con:name><con:value>US</con:value></con:property></con:properties></con:testSuite><con:properties><con:property><con:name>Name</con:name><con:value>This is a NEW Project property</con:value></con:property><con:property><con:name>CountryName</con:name><con:value>IN</con:value></con:property><con:property><con:name>DOB</con:name></con:property><con:property><con:name>DOB1</con:name><con:value>this is dob prop</con:value></con:property></con:properties><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
